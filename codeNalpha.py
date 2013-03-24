@@ -47,30 +47,38 @@ while (choix!='e' and choix!='E' and choix!='q' and choix!='Q' and choix!='D' an
 					break
 				while (i<len(line)-1):
 					new[ordre[nbtotal%(degre)]]+=[line[i]]
+					
 					i=i+1;
 					nbtotal+=1
-				new[nbtotal%(degre)]+=['\n']	
+				new[ordre[nbtotal%(degre)]]+=['\n']	
 				nbtotal+=1
 			dest=input('Veuillez entrer le nom du fichier de destination : \n')
 			dest=str(dest)+".txt"	
 			file_dest=open(dest,'w')
 			z=0
+			zprime=0
 			u=0
-			while (z<=nbtotal):
+			while (z<=nbtotal+degre+1):
 				try:
 					text=str(new[z%degre][u])
-					file_dest.write(text)
-					z+=1
-					if(z>(u+1)*degre):
-						u+=1
+					existence=1
 				except:
-					break	
+					existence=0
+				if(existence==1):	
+					file_dest.write(text)
+				z+=1
+				zprime+=1
+				if(zprime>(u+1)*degre):
+					u+=1
+					zprime=0
+				
 			n=1		
 			key=str(ordre[0])
 			while(n<degre):
 				key+="."+str(ordre[n])
 				n+=1
 			print('Voici votre clé de décodage, notez la soigneusement : ', key)
+			fkey=open(key+'.txt','a')
 	if(choix=='q' or choix=='Q'):
 		break
 
@@ -78,5 +86,5 @@ print(new)
 print('Bye \n')
 file.close()
 file_dest.close()
-
+fkey.close()
 os.system("pause")		
